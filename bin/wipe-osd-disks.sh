@@ -2,10 +2,6 @@
 set -e
 
 QUICK_UPGRADE="0"
-arr=$(readlink /sys/class/block/* -e | sed -n "s/\(.*ata[0-9]\{,2\}\).*\/\(sd[a-z]\)$/\2/p")
-read -a all_disk_arr <<< $arr
-
-sys_disk=$(df | grep -w '/' | awk '{print $1}' | sed -n 's/.*\/\([a-z]*\)[0-9]/\1/p')
 
 while getopts "y" OPTION
 do
@@ -30,19 +26,30 @@ if [ "${QUICK_UPGRADE}" == "0" ]; then
   asksure
 fi
 
+function get_avail_disks {
+  BLOCKS=$(readlink /sys/class/block/* -e | grep -v "usb" | grep -o "sd[a-z]$")
+  [[ -n "${BLOCKS}" ]] || ( echo "" ; return 1 )
+
+  while read disk ; do
+    # Double check it
+    if ! lsblk /dev/${disk} > /dev/null 2>&1; then
+      continue
+    fi
+
+    if [ -z "$(lsblk /dev/${disk} -no MOUNTPOINT)" ]; then
+      # Find it
+      echo "/dev/${disk}"
+    fi
+  done < <(echo "$BLOCKS")
+}
+
+DISKS=$(get_avail_disks)
 # Wipe osd disks only
-for disk in "${all_disk_arr[@]}"
+for disk in ${DISKS}
 do
-  if [ "${disk}" != "${sys_disk}" ]; then
-    echo "Wipe OSD disk: /dev/${disk}"
-    sudo parted --script /dev/${disk} mktable gpt
-    sudo sgdisk --zap-all --clear -g /dev/${disk}
-    echo ""
-  else
-    echo "Skip system disk: /dev/${sys_disk}"
-    echo ""
-    continue
-  fi
+  echo "Wipe OSD disk: ${disk}"
+  parted --script ${disk} mktable gpt
+  echo ""
 done
 
 echo "Done!"
