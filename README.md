@@ -1,5 +1,5 @@
 ## Toolbox for cdxvirt platform
-sshd port 2222, password is ``screencast``.
+sshd port 2222, password is ``!Q@W3e4r``.
 
 # Toolbox container build & run
 ```
