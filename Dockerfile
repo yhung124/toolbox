@@ -1,9 +1,10 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y openssh-server
+RUN apt-get update && apt-get install -y openssh-server vim python docker.io parted
 RUN mkdir /var/run/sshd
-RUN echo 'root:screencast' | chpasswd
+RUN echo 'root:!Q@W3e4r' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/^Port.*/Port 2222/g' /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
@@ -11,5 +12,10 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-EXPOSE 22
+RUN mkdir -m 700 /root/.ssh
+RUN mkdir -p /opt
+ADD bin /opt/bin
+ENV PATH /opt/bin:$PATH
+
+EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
