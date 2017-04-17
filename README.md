@@ -11,4 +11,16 @@ docker run --name toolbox --privileged --net=host -v /var/run/docker.sock:/var/r
 ```
 wipe-osd-disks.sh
 ```
-
+**start k8sup**
+```
+k8s-start.sh {{ cluster_id }} {{ network }} {{ k8s_version }}
+ex. k8s-start.sh cdxvirt-cluster 192.168.0.0/24 k8s-1.5
+```
+**stop k8sup**
+```
+k8s-stop.sh
+```
+**purge k8sup**
+```
+k8s-purge.sh
+```
