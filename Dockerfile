@@ -16,6 +16,7 @@ RUN mkdir -m 700 /root/.ssh
 RUN mkdir -p /opt
 ADD bin /opt/bin
 ENV PATH /opt/bin:$PATH
+ADD README.md /README.md
 
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
