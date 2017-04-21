@@ -24,3 +24,8 @@ k8s-stop.sh
 ```
 k8s-purge.sh
 ```
+**nic bonding
+```
+nic-bonding.sh {{ NIC1 }} {{ NIC2 }} [IP/Prefix]
+ex. nic-bonding.sh enp3s0 enp4s0 192.168.33.100/23
+```
