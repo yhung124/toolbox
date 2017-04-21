@@ -17,5 +17,12 @@ RUN mkdir -p /opt
 ADD bin /opt/bin
 ENV PATH /opt/bin:$PATH
 
+# Regenerating host key of sshd
+RUN rm -rf /etc/ssh/ssh_host*
+RUN ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
+RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
+RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
+RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
+
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
