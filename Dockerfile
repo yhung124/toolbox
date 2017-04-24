@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y openssh-server vim python parted gdisk
+RUN apt-get update && apt-get install -y openssh-server vim python parted gdisk cgpt iproute
 RUN mkdir /var/run/sshd
 RUN echo 'root:!Q@W3e4r' | chpasswd
 
