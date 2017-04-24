@@ -17,25 +17,7 @@ docker run --name toolbox --privileged --net=host \
 ```
 wipe-osd-disks.sh
 ```
-**start k8sup**
-```
-k8s-start.sh {{ cluster_id }} {{ network }} {{ k8s_version }}
-ex. k8s-start.sh cdxvirt-cluster 192.168.0.0/24 k8s-1.5
-```
-**stop k8sup**
-```
-k8s-stop.sh
-```
-**purge k8sup**
-```
-k8s-purge.sh
-```
-**nic bonding
-```
-nic-bonding.sh {{ NIC1 }} {{ NIC2 }} [IP/Prefix]
-ex. nic-bonding.sh enp3s0 enp4s0 192.168.33.100/23
-```
 ** run docker command
 ```
-LD_LIBRARY_PATH=/lib/x86_64-linux-gnu/:/host/lib docker ps
+LD_LIBRARY_PATH=$(dirname $(find /lib -iname libdl.so.2)):/host/lib docker ps
 ```

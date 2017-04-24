@@ -18,5 +18,7 @@ ADD bin /opt/bin
 ENV PATH /opt/bin:$PATH
 ADD README.md /README.md
 
+ADD sshd_config /etc/ssh/sshd_config
+
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
