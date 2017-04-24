@@ -16,14 +16,14 @@ ADD README.md /README.md
 RUN rm -f /etc/ssh/sshd_config
 ADD sshd_config /etc/ssh/sshd_config
 
-RUN echo "alias docker='LD_LIBRARY_PATH=$(dirname $(find /lib -iname libdl.so.2)):/host/lib docker'" >> /root/.bashrc
+RUN echo "alias docker='LD_LIBRARY_PATH=$(dirname $(find $(readlink -f /lib) -iname libdl.so.2)):/host/lib docker'" >> /root/.bashrc
 
 # Regenerating host key of sshd
 RUN rm -rf /etc/ssh/ssh_host*
-RUN ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
+RUN ssh-keygen -q -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
+RUN ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
+RUN ssh-keygen -q -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
+RUN ssh-keygen -q -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
