@@ -1,6 +1,17 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y openssh-server vim python parted gdisk cgpt iproute kexec-tools
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    vim \
+    python \
+    parted \
+    gdisk \
+    cgpt \
+    iproute \
+    kexec-tools \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN mkdir /var/run/sshd
 RUN echo 'root:!Q@W3e4r' | chpasswd
 
