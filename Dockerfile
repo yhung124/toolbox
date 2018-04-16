@@ -11,6 +11,13 @@ RUN apt-get update && apt-get install -y \
     kexec-tools \
     jq \
     rsync \
+    dstat \
+    fio \
+    lshw \
+    iperf3 \
+    sshpass \
+    ansible \
+    libaio1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/run/sshd
