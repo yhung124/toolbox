@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/run/sshd
-RUN echo 'root:!Q@W3e4r' | chpasswd
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
@@ -43,6 +42,8 @@ RUN ssh-keygen -q -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
 RUN ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
 RUN ssh-keygen -q -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
 RUN ssh-keygen -q -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
+
+VOLUME ["/root"]
 
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
