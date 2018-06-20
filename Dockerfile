@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     sshpass \
     ansible \
     libaio1 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/run/sshd
@@ -26,8 +27,7 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 RUN mkdir -m 700 /root/.ssh
-RUN mkdir -p /opt
-ADD bin /opt/bin
+RUN mkdir -p /opt/bin
 ENV PATH /opt/bin:$PATH
 ADD README.md /README.md
 

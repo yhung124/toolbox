@@ -13,10 +13,6 @@ docker run --name toolbox --privileged --net=host \
 -v /var/run/docker.sock:/var/run/docker.sock -t -d cdxvirt/toolbox
 ```
 
-**clean all OSD disks**
-```
-wipe-osd-disks.sh
-```
 ** run docker command
 ```
 LD_LIBRARY_PATH=$(dirname $(find /lib -iname libdl.so.2)):/host/lib docker ps
