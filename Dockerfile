@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     sshpass \
     ansible \
     libaio1 \
+    net-tools \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
