@@ -1,5 +1,8 @@
 FROM ubuntu:16.04
 
+ENV DEBIAN_FRONTEND noninteractive
+ENV ANSIBLE_VER 2.4.3
+
 RUN apt-get update && apt-get install -y \
     openssh-server \
     vim \
@@ -16,10 +19,15 @@ RUN apt-get update && apt-get install -y \
     lshw \
     iperf3 \
     sshpass \
-    ansible \
     libaio1 \
     net-tools \
     curl \
+    iputils-ping \
+    python-netaddr \
+    python-pip \
+    && pip install ansible==$ANSIBLE_VER \
+    && apt-get remove -y python-pip g++ g++-5 gcc gcc-5 cpp cpp-5 binutils build-essential \
+    && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/run/sshd
@@ -44,7 +52,6 @@ RUN ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
 RUN ssh-keygen -q -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
 RUN ssh-keygen -q -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
-VOLUME ["/root"]
-
+WORKDIR "/opt/bin"
 EXPOSE 2222
 CMD ["/usr/sbin/sshd", "-D"]
