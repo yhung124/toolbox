@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     iputils-ping \
     python-netaddr \
     python-pip \
+    e2fsprogs \
     && pip install ansible==$ANSIBLE_VER \
     && apt-get remove -y python-pip g++ g++-5 gcc gcc-5 cpp cpp-5 binutils build-essential \
     && apt-get autoremove -y \
